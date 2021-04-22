@@ -5,6 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using Play.Catalog.Api.Helpers;
 using Play.Catalog.Application.Contracts.v1.Items;
 using Play.Catalog.Application.Interfaces;
@@ -37,6 +40,9 @@ namespace Play.Catalog.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Play.Catalog.Api", Version = "v1" });
             });
+            
+            BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
+            BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
 
             services.AddSingleton<IMongoDbConfig, MongoDbConfig>();
             services.AddScoped<ICatalogContext, CatalogContext>();
