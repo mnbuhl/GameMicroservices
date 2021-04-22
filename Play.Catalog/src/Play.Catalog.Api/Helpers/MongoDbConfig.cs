@@ -1,18 +1,22 @@
-﻿using Play.Catalog.Application.Interfaces;
+﻿using Microsoft.Extensions.Configuration;
+using Play.Catalog.Application.Interfaces;
 
 namespace Play.Catalog.Api.Helpers
 {
     public class MongoDbConfig : IMongoDbConfig
     {
-        public MongoDbConfig()
+        public MongoDbConfig(IConfiguration configuration)
         {
-            ConnectionString = "mongodb://localhost:27017";
-            DatabaseName = "Catalog";
+            string host = configuration.GetValue<string>("MongoDbSettings:Host");
+            string port = configuration.GetValue<string>("MongoDbSettings:Port");
+            ConnectionString = $"mongodb://{host}:{port}";
+            
+            DatabaseName = configuration.GetValue<string>("MongoDbSettings:DatabaseName");
             CollectionName = "items";
         }
         
-        public string ConnectionString { get; set; }
-        public string DatabaseName { get; set; }
-        public string CollectionName { get; set; }
+        public string ConnectionString { get; init; }
+        public string DatabaseName { get; init; }
+        public string CollectionName { get; init; }
     }
 }

@@ -2,8 +2,8 @@
 {
     public interface IMongoDbConfig
     {
-        string ConnectionString { get; set; }
-        string DatabaseName { get; set; }
-        string CollectionName { get; set; }
+        string ConnectionString { get; init; }
+        string DatabaseName { get; init; }
+        string CollectionName { get; init; }
     }
 }
