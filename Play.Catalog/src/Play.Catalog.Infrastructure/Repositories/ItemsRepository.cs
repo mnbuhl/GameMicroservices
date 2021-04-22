@@ -9,9 +9,9 @@ namespace Play.Catalog.Infrastructure.Repositories
 {
     public class ItemsRepository : IItemsRepository
     {
-        private readonly CatalogContext _context;
+        private readonly ICatalogContext _context;
         
-        public ItemsRepository(CatalogContext context)
+        public ItemsRepository(ICatalogContext context)
         {
             _context = context;
         }
