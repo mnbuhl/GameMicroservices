@@ -5,7 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Play.Catalog.Api.Helpers;
 using Play.Catalog.Application.Contracts.v1.Items;
+using Play.Catalog.Application.Interfaces;
+using Play.Catalog.Infrastructure;
 
 namespace Play.Catalog.Api
 {
@@ -33,6 +36,9 @@ namespace Play.Catalog.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Play.Catalog.Api", Version = "v1" });
             });
+
+            services.AddSingleton<IMongoDbConfig, MongoDbConfig>();
+            services.AddScoped<ICatalogContext, CatalogContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

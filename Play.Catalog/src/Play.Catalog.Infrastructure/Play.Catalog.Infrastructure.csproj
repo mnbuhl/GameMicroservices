@@ -8,4 +8,8 @@
       <ProjectReference Include="..\Play.Catalog.Application\Play.Catalog.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MongoDB.Driver" Version="2.12.2" />
+    </ItemGroup>
+
 </Project>
