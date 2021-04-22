@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Play.Catalog.Application.Contracts.v1
+namespace Play.Catalog.Application.Contracts.v1.Items
 {
     public record ItemResponseDto(Guid Id, string Name, string Description, decimal Price, DateTimeOffset CreatedDate);
 

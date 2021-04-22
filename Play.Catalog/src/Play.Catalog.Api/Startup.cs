@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Play.Catalog.Application.Contracts.v1.Items;
 
 namespace Play.Catalog.Api
 {
@@ -26,6 +27,7 @@ namespace Play.Catalog.Api
                 opt.ReportApiVersions = true;
                 opt.AssumeDefaultVersionWhenUnspecified = true;
             });
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
