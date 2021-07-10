@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -67,7 +66,7 @@ namespace Play.Catalog.Api.Controllers
 
             if (itemToUpdate == null)
                 return NotFound();
-            
+
             _mapper.Map(itemToUpdate, itemDto);
 
             bool updated = await _itemsRepository.UpdateAsync(itemToUpdate);
