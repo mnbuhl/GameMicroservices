@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Play.Catalog.Application.Contracts.v1.Items;
 using Play.Catalog.Application.Interfaces;
 using Play.Catalog.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Play.Catalog.Api.Controllers
 {
