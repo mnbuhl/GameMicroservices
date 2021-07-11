@@ -34,23 +34,26 @@ namespace Play.Inventory.Service.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<InventoryItemDto>> GrantItemsAsync(GrantItemsDto grantItemsDto)
+        public async Task<ActionResult<InventoryItemDto>> GrantItemsAsync(GiveOrTakeItemsDto giveOrTakeItemsDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var inventoryItem = await _inventoryRepository.GetAsync(item =>
-                item.UserId == grantItemsDto.UserId && item.CatalogItemId == grantItemsDto.CatalogItemId);
+                item.UserId == giveOrTakeItemsDto.UserId && item.CatalogItemId == giveOrTakeItemsDto.CatalogItemId);
 
             if (inventoryItem == null)
             {
-                inventoryItem = grantItemsDto.AsEntity();
+                inventoryItem = giveOrTakeItemsDto.AsEntity();
 
                 await _inventoryRepository.CreateAsync(inventoryItem);
             }
             else
             {
-                inventoryItem.Quantity += grantItemsDto.Quantity;
+                if (giveOrTakeItemsDto.Quantity < 0 && (inventoryItem.Quantity + giveOrTakeItemsDto.Quantity) < 0)
+                    return BadRequest("Player can't have negative number of items in inventory.");
+
+                inventoryItem.Quantity += giveOrTakeItemsDto.Quantity;
                 await _inventoryRepository.UpdateAsync(inventoryItem);
             }
 

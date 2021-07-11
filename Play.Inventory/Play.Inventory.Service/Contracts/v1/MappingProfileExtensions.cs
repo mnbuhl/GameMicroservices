@@ -10,14 +10,14 @@ namespace Play.Inventory.Service.Contracts.v1
             return new(item.Id, item.CatalogItemId, item.UserId, item.Quantity, item.AcquiredDate);
         }
 
-        public static InventoryItem AsEntity(this GrantItemsDto itemDto)
+        public static InventoryItem AsEntity(this GiveOrTakeItemsDto giveOrTakeItemsDto)
         {
             return new()
             {
                 Id = Guid.NewGuid(),
-                CatalogItemId = itemDto.CatalogItemId,
-                UserId = itemDto.UserId,
-                Quantity = itemDto.Quantity,
+                CatalogItemId = giveOrTakeItemsDto.CatalogItemId,
+                UserId = giveOrTakeItemsDto.UserId,
+                Quantity = giveOrTakeItemsDto.Quantity,
                 AcquiredDate = DateTimeOffset.Now
             };
         }
