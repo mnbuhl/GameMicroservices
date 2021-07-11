@@ -5,7 +5,6 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using Play.Catalog.Api.Helpers;
 using Play.Catalog.Application.Interfaces;
-using Play.Catalog.Domain.Entities;
 using Play.Catalog.Infrastructure.Repositories;
 
 namespace Play.Catalog.Api.Extensions
@@ -19,8 +18,8 @@ namespace Play.Catalog.Api.Extensions
             return services;
         }
 
-        public static IServiceCollection AddMongoRepository<T>(this IServiceCollection services,
-            IConfiguration configuration, string collectionName) where T : IEntity
+        public static IServiceCollection AddMongoRepository(this IServiceCollection services,
+            IConfiguration configuration, string collectionName)
         {
             services.AddSingleton<IMongoDbConfig>(_ => new MongoDbConfig(configuration, collectionName));
 

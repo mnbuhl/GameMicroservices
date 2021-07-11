@@ -7,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Play.Catalog.Api.Extensions;
 using Play.Catalog.Application.Contracts.v1.Items;
-using Play.Catalog.Domain.Entities;
 
 namespace Play.Catalog.Api
 {
@@ -37,7 +36,7 @@ namespace Play.Catalog.Api
             });
 
             services.AddMongoOptions();
-            services.AddMongoRepository<IEntity>(_configuration, "items");
+            services.AddMongoRepository(_configuration, "items");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
