@@ -1,13 +1,13 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Play.Catalog.Api.Contracts.v1.Items;
-using Play.Catalog.Api.Entities;
+using Play.Catalog.Service.Contracts.v1.Items;
+using Play.Catalog.Service.Entities;
 using Play.Common;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Play.Catalog.Api.Controllers
+namespace Play.Catalog.Service.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]

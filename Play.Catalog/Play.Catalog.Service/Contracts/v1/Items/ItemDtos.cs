@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Play.Catalog.Api.Contracts.v1.Items
+namespace Play.Catalog.Service.Contracts.v1.Items
 {
     public record ItemResponseDto(Guid Id, string Name, string Description, decimal Price, DateTimeOffset CreatedDate);
 

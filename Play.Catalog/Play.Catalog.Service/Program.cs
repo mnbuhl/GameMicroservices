@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Play.Catalog.Api
+namespace Play.Catalog.Service
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class Program

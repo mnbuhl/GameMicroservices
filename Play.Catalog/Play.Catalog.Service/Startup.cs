@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Play.Catalog.Api.Contracts.v1.Items;
+using Play.Catalog.Service.Contracts.v1.Items;
 using Play.Common.MongoDb;
 
-namespace Play.Catalog.Api
+namespace Play.Catalog.Service
 {
     public class Startup
     {
