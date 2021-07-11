@@ -14,10 +14,10 @@ namespace Play.Catalog.Api.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ItemsController : ControllerBase
     {
-        private readonly IItemsRepository _itemsRepository;
+        private readonly IRepository<Item> _itemsRepository;
         private readonly IMapper _mapper;
 
-        public ItemsController(IMapper mapper, IItemsRepository itemsRepository)
+        public ItemsController(IMapper mapper, IRepository<Item> itemsRepository)
         {
             _mapper = mapper;
             _itemsRepository = itemsRepository;

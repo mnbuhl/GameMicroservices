@@ -10,7 +10,6 @@ using MongoDB.Bson.Serialization.Serializers;
 using Play.Catalog.Api.Helpers;
 using Play.Catalog.Application.Contracts.v1.Items;
 using Play.Catalog.Application.Interfaces;
-using Play.Catalog.Infrastructure;
 using Play.Catalog.Infrastructure.Repositories;
 
 namespace Play.Catalog.Api
@@ -37,8 +36,7 @@ namespace Play.Catalog.Api
             BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
 
             services.AddSingleton<IMongoDbConfig, MongoDbConfig>();
-            services.AddScoped<ICatalogContext, CatalogContext>();
-            services.AddScoped<IItemsRepository, ItemsRepository>();
+            services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
