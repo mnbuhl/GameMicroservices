@@ -67,7 +67,7 @@ namespace Play.Catalog.Api.Controllers
             if (itemToUpdate == null)
                 return NotFound();
 
-            _mapper.Map(itemToUpdate, itemDto);
+            _mapper.Map(itemDto, itemToUpdate);
 
             bool updated = await _itemsRepository.UpdateAsync(itemToUpdate);
 
