@@ -5,13 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
-using Play.Catalog.Api.Helpers;
+using Play.Catalog.Api.Extensions;
 using Play.Catalog.Application.Contracts.v1.Items;
-using Play.Catalog.Application.Interfaces;
-using Play.Catalog.Infrastructure.Repositories;
+using Play.Catalog.Domain.Entities;
 
 namespace Play.Catalog.Api
 {
@@ -40,12 +36,8 @@ namespace Play.Catalog.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Play.Catalog.Api", Version = "v1" });
             });
 
-            BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
-            BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
-
-            services.AddSingleton<IMongoDbConfig>(_ => new MongoDbConfig(_configuration, "items"));
-
-            services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+            services.AddMongoOptions();
+            services.AddMongoRepository<IEntity>(_configuration, "items");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
