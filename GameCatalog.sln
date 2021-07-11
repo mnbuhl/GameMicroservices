@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31423.177
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Play.Catalog", "Play.Catalog", "{DB48101E-F530-4274-B972-D6E79DF459DB}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Catalog.Application", "Play.Catalog\Play.Catalog.Application\Play.Catalog.Application.csproj", "{11E50BC2-DF29-425C-A477-0C96EBAFF0FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Catalog.Domain", "Play.Catalog\Play.Catalog.Domain\Play.Catalog.Domain.csproj", "{0AAA76E5-1431-4666-A72A-54EF1E7ECEB5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Play.Common", "Play.Common", "{B674FC97-540E-4143-B6D4-52FC87A289B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Common", "Play.Common\Play.Common\Play.Common.csproj", "{F7AAD040-4519-429A-BC62-230572338782}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +45,10 @@ Global
 		{0AAA76E5-1431-4666-A72A-54EF1E7ECEB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AAA76E5-1431-4666-A72A-54EF1E7ECEB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AAA76E5-1431-4666-A72A-54EF1E7ECEB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7AAD040-4519-429A-BC62-230572338782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7AAD040-4519-429A-BC62-230572338782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7AAD040-4519-429A-BC62-230572338782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7AAD040-4519-429A-BC62-230572338782}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +58,7 @@ Global
 		{BC5DDEAE-9CFC-4A9B-B46A-0ADD0167C6D3} = {DB48101E-F530-4274-B972-D6E79DF459DB}
 		{11E50BC2-DF29-425C-A477-0C96EBAFF0FA} = {DB48101E-F530-4274-B972-D6E79DF459DB}
 		{0AAA76E5-1431-4666-A72A-54EF1E7ECEB5} = {DB48101E-F530-4274-B972-D6E79DF459DB}
+		{F7AAD040-4519-429A-BC62-230572338782} = {B674FC97-540E-4143-B6D4-52FC87A289B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AF2BFBD1-4205-4D82-873C-70A352C2F496}
