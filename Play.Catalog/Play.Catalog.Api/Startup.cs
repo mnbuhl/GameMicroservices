@@ -43,10 +43,7 @@ namespace Play.Catalog.Api
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
             BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
 
-            services.AddSingleton<IMongoDbConfig>(serviceProvider =>
-            {
-                return new MongoDbConfig(_configuration, "items");
-            });
+            services.AddSingleton<IMongoDbConfig>(_ => new MongoDbConfig(_configuration, "items"));
 
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
         }

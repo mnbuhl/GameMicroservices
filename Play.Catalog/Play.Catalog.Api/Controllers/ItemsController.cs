@@ -11,6 +11,7 @@ namespace Play.Catalog.Api.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
+    // ReSharper disable once RouteTemplates.RouteParameterConstraintNotResolved
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ItemsController : ControllerBase
     {
