@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Play.Catalog.Domain.Entities;
+using Play.Catalog.Api.Entities;
 
-namespace Play.Catalog.Application.Contracts.v1.Items
+namespace Play.Catalog.Api.Contracts.v1.Items
 {
     public class MappingProfile : Profile
     {

@@ -1,8 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Play.Catalog.Application.Contracts.v1.Items;
-using Play.Catalog.Application.Interfaces;
-using Play.Catalog.Domain.Entities;
+using Play.Catalog.Api.Contracts.v1.Items;
+using Play.Catalog.Api.Entities;
+using Play.Common;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
