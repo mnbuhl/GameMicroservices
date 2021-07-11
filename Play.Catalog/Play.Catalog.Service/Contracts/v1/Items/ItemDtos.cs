@@ -8,10 +8,10 @@ namespace Play.Catalog.Service.Contracts.v1.Items
     public record CreateItemDto(
         [Required] string Name,
         [Required] string Description,
-        [Range(0, int.MaxValue)] decimal Price);
+        [Required, Range(0, int.MaxValue)] decimal Price);
 
     public record UpdateItemDto(
         [Required] string Name,
         [Required] string Description,
-        [Range(0, int.MaxValue)] decimal Price);
+        [Required, Range(0, int.MaxValue)] decimal Price);
 }
