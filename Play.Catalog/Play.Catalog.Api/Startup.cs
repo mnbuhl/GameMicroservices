@@ -36,7 +36,7 @@ namespace Play.Catalog.Api
             });
 
             services.AddMongoOptions();
-            services.AddMongoRepository(_configuration, "items");
+            services.AddMongoRepository("items");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

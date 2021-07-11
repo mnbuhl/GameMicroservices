@@ -15,14 +15,14 @@ namespace Play.Catalog.Api.Extensions
         {
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
             BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
+
             return services;
         }
 
-        public static IServiceCollection AddMongoRepository(this IServiceCollection services,
-            IConfiguration configuration, string collectionName)
+        public static IServiceCollection AddMongoRepository(this IServiceCollection services, string collectionName)
         {
+            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             services.AddSingleton<IMongoDbConfig>(_ => new MongoDbConfig(configuration, collectionName));
-
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
 
             return services;
