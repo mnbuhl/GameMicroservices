@@ -30,7 +30,11 @@ namespace Play.Inventory.Service
                     retryCount: 5,
                     sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
                                                            + TimeSpan.FromMilliseconds(Jitter.Next(0, 1000))))
-                .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(1));
+                .AddTransientHttpErrorPolicy(builder => builder.Or<TimeoutRejectedException>().CircuitBreakerAsync(
+                        5,
+                        TimeSpan.FromSeconds(15)
+                ))
+                .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(2));
 
             services.AddApiVersioning(opt =>
             {
