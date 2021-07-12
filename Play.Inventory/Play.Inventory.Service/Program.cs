@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+
 // ReSharper disable All
 
 namespace Play.Inventory.Service

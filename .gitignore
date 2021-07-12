@@ -5,3 +5,4 @@
 Debug
 obj
 global.json
+*.user
