@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Play.Common.MongoDb;
 using Play.Inventory.Service.Clients;
@@ -17,24 +15,11 @@ namespace Play.Inventory.Service
 {
     public class Startup
     {
-
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+        private static readonly Random Jitter = new Random();
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var loggerFactory = LoggerFactory.Create(factory =>
-            {
-                factory.AddConsole();
-                factory.AddEventSourceLogger();
-            });
-            ILogger logger = loggerFactory.CreateLogger<Startup>();
-
             services.AddMongoOptions().AddMongoRepository("inventoryItems");
 
             services.AddHttpClient<CatalogClient>(client =>
@@ -43,11 +28,8 @@ namespace Play.Inventory.Service
             })
                 .AddTransientHttpErrorPolicy(builder => builder.Or<TimeoutRejectedException>().WaitAndRetryAsync(
                     retryCount: 5,
-                    sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
-                    onRetry: (_, timespan, retryAttempt) =>
-                    {
-                        logger.LogWarning($"Delaying for {timespan.TotalSeconds} seconds, then making retry {retryAttempt.Count}");
-                    }))
+                    sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+                                                           + TimeSpan.FromMilliseconds(Jitter.Next(0, 1000))))
                 .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(1));
 
             services.AddApiVersioning(opt =>
