@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Play.Common;
+using Play.Inventory.Service.Clients;
 using Play.Inventory.Service.Contracts.v1;
 using Play.Inventory.Service.Entities;
 using System;
@@ -15,10 +16,12 @@ namespace Play.Inventory.Service.Controllers
     public class ItemsController : ControllerBase
     {
         private readonly IRepository<InventoryItem> _inventoryRepository;
+        private readonly CatalogClient _catalogClient;
 
-        public ItemsController(IRepository<InventoryItem> inventoryRepository)
+        public ItemsController(IRepository<InventoryItem> inventoryRepository, CatalogClient catalogClient)
         {
             _inventoryRepository = inventoryRepository;
+            _catalogClient = catalogClient;
         }
 
         [HttpGet("{userId:guid}")]
@@ -27,10 +30,16 @@ namespace Play.Inventory.Service.Controllers
             if (userId == Guid.Empty)
                 return BadRequest();
 
-            var inventoryItems = (await _inventoryRepository.GetAllAsync(item => item.UserId == userId))
-                .Select(item => item.AsDto());
+            var catalogItems = await _catalogClient.GetCatalogItemsAsync();
+            var inventoryItemEntities = await _inventoryRepository.GetAllAsync(item => item.UserId == userId);
 
-            return Ok(inventoryItems);
+            var inventoryItemDtos = inventoryItemEntities.Select(item =>
+            {
+                var catalogItemDto = catalogItems.FirstOrDefault(catalogItem => catalogItem.Id == item.CatalogItemId);
+                return item.AsDto(catalogItemDto?.Name ?? "Not found", catalogItemDto?.Description ?? "Not found");
+            });
+
+            return Ok(inventoryItemDtos);
         }
 
         [HttpPost]
@@ -57,7 +66,9 @@ namespace Play.Inventory.Service.Controllers
                 await _inventoryRepository.UpdateAsync(inventoryItem);
             }
 
-            return Ok(inventoryItem.AsDto());
+            var catalogItem = await _catalogClient.GetCatalogItemAsync(giveOrTakeItemsDto.CatalogItemId);
+
+            return Ok(inventoryItem.AsDto(catalogItem.Name, catalogItem.Description));
         }
     }
 }
