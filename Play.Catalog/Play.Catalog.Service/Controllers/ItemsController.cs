@@ -1,5 +1,7 @@
 using AutoMapper;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using Play.Catalog.Contracts;
 using Play.Catalog.Service.Contracts.v1.Items;
 using Play.Catalog.Service.Entities;
 using Play.Common;
@@ -17,11 +19,13 @@ namespace Play.Catalog.Service.Controllers
     {
         private readonly IRepository<Item> _itemsRepository;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public ItemsController(IMapper mapper, IRepository<Item> itemsRepository)
+        public ItemsController(IMapper mapper, IRepository<Item> itemsRepository, IPublishEndpoint publishEndpoint)
         {
             _mapper = mapper;
             _itemsRepository = itemsRepository;
+            _publishEndpoint = publishEndpoint;
         }
 
         // GET /api/v1/items
@@ -56,6 +60,8 @@ namespace Play.Catalog.Service.Controllers
             if (!created)
                 return BadRequest();
 
+            await _publishEndpoint.Publish(new CatalogItemCreated(item.Id, item.Name, item.Description));
+
             return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
         }
 
@@ -75,6 +81,8 @@ namespace Play.Catalog.Service.Controllers
             if (!updated)
                 return BadRequest();
 
+            await _publishEndpoint.Publish(new CatalogItemUpdated(itemToUpdate.Id, itemToUpdate.Name, itemToUpdate.Description));
+
             return NoContent();
         }
 
@@ -86,6 +94,8 @@ namespace Play.Catalog.Service.Controllers
 
             if (!deleted)
                 return NotFound();
+
+            await _publishEndpoint.Publish(new CatalogItemDeleted(id));
 
             return NoContent();
         }
