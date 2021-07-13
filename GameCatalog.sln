@@ -26,7 +26,30 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Catalog.Service", "Pla
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Inventory.Service", "Play.Inventory\Play.Inventory.Service\Play.Inventory.Service.csproj", "{257C95B4-EECE-4773-9417-C490391C9456}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Catalog.Contracts", "Play.Catalog\Play.Catalog.Contracts\Play.Catalog.Contracts.csproj", "{3847DFE5-8905-4E92-A0ED-031906049C59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Catalog.Contracts", "Play.Catalog\Play.Catalog.Contracts\Play.Catalog.Contracts.csproj", "{3847DFE5-8905-4E92-A0ED-031906049C59}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Play.Client", "Play.Client", "{67F4C7CF-D6A8-48EC-AA77-9245833A43EB}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Play.Client", "Play.Client\", "{FA2FE952-3667-4E50-A28C-261E1080666C}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_50456"
+		Debug.AspNetCompiler.PhysicalPath = "Play.Client\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50456\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_50456"
+		Release.AspNetCompiler.PhysicalPath = "Play.Client\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50456\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "50456"
+		SlnRelativePath = "Play.Client\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +73,10 @@ Global
 		{3847DFE5-8905-4E92-A0ED-031906049C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3847DFE5-8905-4E92-A0ED-031906049C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3847DFE5-8905-4E92-A0ED-031906049C59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA2FE952-3667-4E50-A28C-261E1080666C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA2FE952-3667-4E50-A28C-261E1080666C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA2FE952-3667-4E50-A28C-261E1080666C}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA2FE952-3667-4E50-A28C-261E1080666C}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +86,7 @@ Global
 		{95B0D1C6-7DB3-4B1E-89DF-3A15836B39B5} = {DB48101E-F530-4274-B972-D6E79DF459DB}
 		{257C95B4-EECE-4773-9417-C490391C9456} = {0652E913-22AD-4B00-AC51-6DE402B5D504}
 		{3847DFE5-8905-4E92-A0ED-031906049C59} = {DB48101E-F530-4274-B972-D6E79DF459DB}
+		{FA2FE952-3667-4E50-A28C-261E1080666C} = {67F4C7CF-D6A8-48EC-AA77-9245833A43EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AF2BFBD1-4205-4D82-873C-70A352C2F496}
