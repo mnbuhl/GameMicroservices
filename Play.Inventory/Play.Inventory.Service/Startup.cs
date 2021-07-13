@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Play.Common.MassTransit;
 using Play.Common.MongoDb;
 using Play.Inventory.Service.Clients;
 using Polly;
@@ -15,26 +16,17 @@ namespace Play.Inventory.Service
 {
     public class Startup
     {
-        private static readonly Random Jitter = new Random();
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMongoOptions().AddMongoRepository("inventoryItems");
+            services.AddMongoOptions()
+                .AddMongoRepository("inventoryItems")
+                .AddMongoRepository("catalogItems")
+                .AddMassTransitWithRabbitMq();
 
-            services.AddHttpClient<CatalogClient>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:5001");
-            })
-                .AddTransientHttpErrorPolicy(builder => builder.Or<TimeoutRejectedException>().WaitAndRetryAsync(
-                    retryCount: 5,
-                    sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
-                                                           + TimeSpan.FromMilliseconds(Jitter.Next(0, 1000))))
-                .AddTransientHttpErrorPolicy(builder => builder.Or<TimeoutRejectedException>().CircuitBreakerAsync(
-                        5,
-                        TimeSpan.FromSeconds(15)
-                ))
-                .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(2));
+            HttpClientConnection(services);
 
             services.AddApiVersioning(opt =>
             {
@@ -48,6 +40,21 @@ namespace Play.Inventory.Service
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Play.Inventory", Version = "v1" });
             });
+        }
+
+        private static void HttpClientConnection(IServiceCollection services)
+        {
+            Random jitter = new Random();
+            services.AddHttpClient<CatalogClient>(client => { client.BaseAddress = new Uri("https://localhost:5001"); })
+                .AddTransientHttpErrorPolicy(builder => builder.Or<TimeoutRejectedException>().WaitAndRetryAsync(
+                    retryCount: 5,
+                    sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+                                                           + TimeSpan.FromMilliseconds(jitter.Next(0, 1000))))
+                .AddTransientHttpErrorPolicy(builder => builder.Or<TimeoutRejectedException>().CircuitBreakerAsync(
+                    5,
+                    TimeSpan.FromSeconds(15)
+                ))
+                .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(2));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
