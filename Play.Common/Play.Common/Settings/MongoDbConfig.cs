@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Play.Common.MongoDb.Settings
+namespace Play.Common.Settings
 {
     public class MongoDbConfig : IMongoDbConfig
     {

@@ -1,9 +1,9 @@
 ﻿using MongoDB.Driver;
-using Play.Common.MongoDb.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Play.Common.Settings;
 
 namespace Play.Common.MongoDb
 {

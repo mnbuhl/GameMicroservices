@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
-using Play.Common.MongoDb.Settings;
+using Play.Common.Settings;
 
 namespace Play.Common.MongoDb
 {

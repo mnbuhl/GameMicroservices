@@ -1,4 +1,4 @@
-﻿namespace Play.Common.MongoDb.Settings
+﻿namespace Play.Common.Settings
 {
     public interface IMongoDbConfig
     {
