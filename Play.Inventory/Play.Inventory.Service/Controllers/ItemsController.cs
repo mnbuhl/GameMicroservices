@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Play.Common;
-using Play.Inventory.Service.Clients;
 using Play.Inventory.Service.Contracts.v1;
 using Play.Inventory.Service.Entities;
 using System;
@@ -17,12 +16,12 @@ namespace Play.Inventory.Service.Controllers
     public class ItemsController : ControllerBase
     {
         private readonly IRepository<InventoryItem> _inventoryRepository;
-        private readonly CatalogClient _catalogClient;
+        private readonly IRepository<CatalogItem> _catalogRepository;
 
-        public ItemsController(IRepository<InventoryItem> inventoryRepository, CatalogClient catalogClient)
+        public ItemsController(IRepository<InventoryItem> inventoryRepository, IRepository<CatalogItem> catalogRepository)
         {
             _inventoryRepository = inventoryRepository;
-            _catalogClient = catalogClient;
+            _catalogRepository = catalogRepository;
         }
 
         [HttpGet("{userId:guid}")]
@@ -31,12 +30,13 @@ namespace Play.Inventory.Service.Controllers
             if (userId == Guid.Empty)
                 return BadRequest();
 
-            var catalogItems = await _catalogClient.GetCatalogItemsAsync();
             var inventoryItemEntities = await _inventoryRepository.GetAllAsync(item => item.UserId == userId);
+            var catalogItemIds = inventoryItemEntities.Select(item => item.CatalogItemId);
+            var catalogItemEntities = await _catalogRepository.GetAllAsync(item => catalogItemIds.Contains(item.Id));
 
             var inventoryItemDtos = inventoryItemEntities.Select(item =>
             {
-                var catalogItemDto = catalogItems.FirstOrDefault(catalogItem => catalogItem.Id == item.CatalogItemId);
+                var catalogItemDto = catalogItemEntities.FirstOrDefault(catalogItem => catalogItem.Id == item.CatalogItemId);
                 return item.AsDto(catalogItemDto?.Name ?? "Not found", catalogItemDto?.Description ?? "Not found");
             });
 
@@ -67,7 +67,7 @@ namespace Play.Inventory.Service.Controllers
                 await _inventoryRepository.UpdateAsync(inventoryItem);
             }
 
-            var catalogItem = await _catalogClient.GetCatalogItemAsync(giveOrTakeItemsDto.CatalogItemId);
+            var catalogItem = await _catalogRepository.GetAsync(giveOrTakeItemsDto.CatalogItemId);
 
             return Ok(inventoryItem.AsDto(catalogItem.Name, catalogItem.Description));
         }
