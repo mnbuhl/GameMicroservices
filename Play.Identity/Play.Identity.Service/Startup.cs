@@ -1,16 +1,22 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using Play.Common.Settings;
+using Play.Identity.Service.Entities;
 
 namespace Play.Identity.Service
 {
     public class Startup
     {
-        private IConfiguration _configuration;
-        
+        private readonly IConfiguration _configuration;
+
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -19,6 +25,14 @@ namespace Play.Identity.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
+            string serviceName = _configuration.GetValue<string>("ServiceName");
+            var mongoDbSettings = new MongoDbConfig(_configuration, "");
+
+            services.AddDefaultIdentity<AppUser>()
+                .AddRoles<AppRole>()
+                .AddMongoDbStores<AppUser, AppRole, Guid>(mongoDbSettings.ConnectionString, serviceName);
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -38,11 +52,17 @@ namespace Play.Identity.Service
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
+            });
         }
     }
 }

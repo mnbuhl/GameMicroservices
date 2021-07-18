@@ -1,5 +1,6 @@
-@inject SignInManager<IdentityUser> _signInManager
-@inject UserManager<IdentityUser> _userManager
+@using Play.Identity.Service.Entities
+@inject SignInManager<AppUser> _signInManager
+@inject UserManager<AppUser> _userManager
 
 <ul class="navbar-nav">
     @if (_signInManager.IsSignedIn(User))
