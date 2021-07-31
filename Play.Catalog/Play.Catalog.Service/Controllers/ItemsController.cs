@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
@@ -5,9 +8,6 @@ using Play.Catalog.Contracts;
 using Play.Catalog.Service.Contracts.v1.Items;
 using Play.Catalog.Service.Entities;
 using Play.Common;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Play.Catalog.Service.Controllers
 {
@@ -81,7 +81,8 @@ namespace Play.Catalog.Service.Controllers
             if (!updated)
                 return BadRequest();
 
-            await _publishEndpoint.Publish(new CatalogItemUpdated(itemToUpdate.Id, itemToUpdate.Name, itemToUpdate.Description));
+            await _publishEndpoint.Publish(new CatalogItemUpdated(itemToUpdate.Id, itemToUpdate.Name,
+                itemToUpdate.Description));
 
             return NoContent();
         }

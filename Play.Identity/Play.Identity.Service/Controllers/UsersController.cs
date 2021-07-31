@@ -19,6 +19,7 @@ namespace Play.Identity.Service.Controllers
             _userManager = userManager;
         }
 
+        // GET /api/users
         [HttpGet]
         public ActionResult<IEnumerable<UserDto>> GetUsers()
         {
@@ -26,6 +27,7 @@ namespace Play.Identity.Service.Controllers
             return Ok(users);
         }
 
+        // GET /api/users/{id}
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<UserDto>> GetById(Guid id)
         {
@@ -39,6 +41,7 @@ namespace Play.Identity.Service.Controllers
             return Ok(user.AsDto());
         }
 
+        // PUT /api/users/{id}
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, UpdateUserDto userDto)
         {
@@ -58,6 +61,7 @@ namespace Play.Identity.Service.Controllers
             return NoContent();
         }
 
+        // DELETE /api/users/{id}
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
