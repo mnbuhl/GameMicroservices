@@ -6,3 +6,4 @@ Debug
 obj
 global.json
 *.user
+tempkey.jwk

@@ -36,8 +36,11 @@ namespace Play.Identity.Service
                 .AddMongoDbStores<AppUser, AppRole, Guid>(mongoDbSettings.ConnectionString, serviceName);
 
             services.AddIdentityServer()
+                .AddAspNetIdentity<AppUser>()
                 .AddInMemoryApiScopes(identityServerSettings.ApiScopes)
-                .AddInMemoryClients(identityServerSettings.Clients);
+                .AddInMemoryClients(identityServerSettings.Clients)
+                .AddInMemoryIdentityResources(identityServerSettings.IdentityResources)
+                .AddDeveloperSigningCredential();
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
