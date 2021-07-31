@@ -10,6 +10,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using Play.Common.Settings;
 using Play.Identity.Service.Entities;
+using Play.Identity.Service.Settings;
 
 namespace Play.Identity.Service
 {
@@ -28,11 +29,16 @@ namespace Play.Identity.Service
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
             string serviceName = _configuration.GetValue<string>("ServiceName");
             var mongoDbSettings = new MongoDbConfig(_configuration, "");
+            var identityServerSettings = new IdentityServerSettings();
 
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<AppRole>()
                 .AddMongoDbStores<AppUser, AppRole, Guid>(mongoDbSettings.ConnectionString, serviceName);
 
+            services.AddIdentityServer()
+                .AddInMemoryApiScopes(identityServerSettings.ApiScopes)
+                .AddInMemoryClients(identityServerSettings.Clients);
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -56,6 +62,7 @@ namespace Play.Identity.Service
 
             app.UseRouting();
 
+            app.UseIdentityServer();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
