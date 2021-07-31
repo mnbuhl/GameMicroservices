@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Play.Identity.Service
 {
@@ -12,7 +13,7 @@ namespace Play.Identity.Service
     );
 
     public record UpdateUserDto(
-        [Required, EmailAddress] string Email,
-        [Range(0, 1_000_000)] decimal Balance
+        [EmailAddress] string Email,
+        [Range(0, 1_000_000)] decimal? Balance
     );
 }
