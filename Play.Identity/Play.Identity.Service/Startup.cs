@@ -44,10 +44,11 @@ namespace Play.Identity.Service
                 })
                 .AddAspNetIdentity<AppUser>()
                 .AddInMemoryApiScopes(identityServerSettings.ApiScopes)
+                .AddInMemoryApiResources(identityServerSettings.ApiResources)
                 .AddInMemoryClients(identityServerSettings.Clients)
                 .AddInMemoryIdentityResources(identityServerSettings.IdentityResources)
                 .AddDeveloperSigningCredential();
-            
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
