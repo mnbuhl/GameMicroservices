@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Play.Common.Identity;
 using Play.Common.MassTransit;
 using Play.Common.MongoDb;
 
@@ -22,10 +23,12 @@ namespace Play.Inventory.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // From Play.Common package
             services.AddMongoOptions()
                 .AddMongoRepository("inventoryItems")
                 .AddMongoRepository("catalogItems")
-                .AddMassTransitWithRabbitMq();
+                .AddMassTransitWithRabbitMq()
+                .AddJwtBearerAuthentication();
 
             services.AddApiVersioning(opt =>
             {
@@ -62,6 +65,7 @@ namespace Play.Inventory.Service
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
