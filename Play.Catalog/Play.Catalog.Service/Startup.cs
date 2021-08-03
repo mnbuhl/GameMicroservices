@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,14 @@ namespace Play.Catalog.Service
                 opt.ReportApiVersions = true;
                 opt.AssumeDefaultVersionWhenUnspecified = true;
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "https://localhost:5003";
+                    options.Audience = _configuration.GetValue<string>("ServiceName");
+                });
+            
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -62,6 +71,7 @@ namespace Play.Catalog.Service
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
