@@ -20,11 +20,12 @@ namespace Play.Common.MassTransit
                 configure.UsingRabbitMq((context, configurator) =>
                 {
                     var configuration = context.GetRequiredService<IConfiguration>();
+                    var serviceSettings = configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
                     var rabbitMqSettings = configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
                     configurator.Host(rabbitMqSettings.Host);
 
                     configurator.ConfigureEndpoints(context,
-                        new KebabCaseEndpointNameFormatter(configuration.GetValue<string>("ServiceName"), false));
+                        new KebabCaseEndpointNameFormatter(serviceSettings.ServiceName, false));
                     configurator.UseMessageRetry(retryConfigurator =>
                     {
                         retryConfigurator.Interval(3, TimeSpan.FromSeconds(5));

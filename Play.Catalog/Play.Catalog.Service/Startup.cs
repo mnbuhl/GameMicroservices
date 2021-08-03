@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Play.Catalog.Service.Contracts.v1.Items;
+using Play.Common.Identity;
 using Play.Common.MassTransit;
 using Play.Common.MongoDb;
 
@@ -26,7 +26,8 @@ namespace Play.Catalog.Service
         {
             services.AddMongoOptions()
                 .AddMongoRepository("items")
-                .AddMassTransitWithRabbitMq();
+                .AddMassTransitWithRabbitMq()
+                .AddJwtBearerAuthentication();
 
             services.AddApiVersioning(opt =>
             {
@@ -35,13 +36,6 @@ namespace Play.Catalog.Service
                 opt.AssumeDefaultVersionWhenUnspecified = true;
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = "https://localhost:5003";
-                    options.Audience = _configuration.GetValue<string>("ServiceName");
-                });
-            
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddControllers();
             services.AddSwaggerGen(c =>

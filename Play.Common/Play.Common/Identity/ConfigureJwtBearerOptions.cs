@@ -25,7 +25,7 @@ namespace Play.Common.Identity
             if (name != JwtBearerDefaults.AuthenticationScheme) 
                 return;
             
-            var serviceSettings = _configuration.GetValue<ServiceSettings>(nameof(ServiceSettings));
+            var serviceSettings = _configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
             options.Audience = serviceSettings.ServiceName;
             options.Authority = serviceSettings.Authority;

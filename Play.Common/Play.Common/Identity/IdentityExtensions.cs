@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Play.Common.Identity
@@ -9,7 +10,7 @@ namespace Play.Common.Identity
         {
             return services
                 .ConfigureOptions<ConfigureJwtBearerOptions>()
-                .AddAuthentication()
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer();
         }
     }

@@ -27,14 +27,15 @@ namespace Play.Identity.Service
         public void ConfigureServices(IServiceCollection services)
         {
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
-            string serviceName = _configuration.GetValue<string>("ServiceName");
+            var serviceSettings = _configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
             var mongoDbSettings = new MongoDbConfig(_configuration, "");
             var identityServerSettings =
                 _configuration.GetSection(nameof(IdentityServerSettings)).Get<IdentityServerSettings>();
 
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<AppRole>()
-                .AddMongoDbStores<AppUser, AppRole, Guid>(mongoDbSettings.ConnectionString, serviceName);
+                .AddMongoDbStores<AppUser, AppRole, Guid>(mongoDbSettings.ConnectionString,
+                    serviceSettings.ServiceName);
 
             services.AddIdentityServer(options =>
                 {
