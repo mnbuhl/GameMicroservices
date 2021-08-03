@@ -29,13 +29,19 @@ namespace Play.Identity.Service
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
             string serviceName = _configuration.GetValue<string>("ServiceName");
             var mongoDbSettings = new MongoDbConfig(_configuration, "");
-            var identityServerSettings = new IdentityServerSettings();
+            var identityServerSettings =
+                _configuration.GetSection(nameof(IdentityServerSettings)).Get<IdentityServerSettings>();
 
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<AppRole>()
                 .AddMongoDbStores<AppUser, AppRole, Guid>(mongoDbSettings.ConnectionString, serviceName);
 
-            services.AddIdentityServer()
+            services.AddIdentityServer(options =>
+                {
+                    options.Events.RaiseSuccessEvents = true;
+                    options.Events.RaiseFailureEvents = true;
+                    options.Events.RaiseErrorEvents = true;
+                })
                 .AddAspNetIdentity<AppUser>()
                 .AddInMemoryApiScopes(identityServerSettings.ApiScopes)
                 .AddInMemoryClients(identityServerSettings.Clients)

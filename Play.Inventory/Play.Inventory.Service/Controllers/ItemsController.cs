@@ -1,24 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Play.Common;
-using Play.Inventory.Service.Contracts.v1;
-using Play.Inventory.Service.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Play.Common;
+using Play.Inventory.Service.Contracts.v1;
+using Play.Inventory.Service.Entities;
 
 namespace Play.Inventory.Service.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    // ReSharper disable once RouteTemplates.RouteParameterConstraintNotResolved
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ItemsController : ControllerBase
     {
         private readonly IRepository<InventoryItem> _inventoryRepository;
         private readonly IRepository<CatalogItem> _catalogRepository;
 
-        public ItemsController(IRepository<InventoryItem> inventoryRepository, IRepository<CatalogItem> catalogRepository)
+        public ItemsController(IRepository<InventoryItem> inventoryRepository,
+            IRepository<CatalogItem> catalogRepository)
         {
             _inventoryRepository = inventoryRepository;
             _catalogRepository = catalogRepository;
@@ -36,7 +36,8 @@ namespace Play.Inventory.Service.Controllers
 
             var inventoryItemDtos = inventoryItemEntities.Select(item =>
             {
-                var catalogItemDto = catalogItemEntities.FirstOrDefault(catalogItem => catalogItem.Id == item.CatalogItemId);
+                var catalogItemDto =
+                    catalogItemEntities.FirstOrDefault(catalogItem => catalogItem.Id == item.CatalogItemId);
                 return item.AsDto(catalogItemDto?.Name ?? "Not found", catalogItemDto?.Description ?? "Not found");
             });
 
