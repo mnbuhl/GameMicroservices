@@ -26,7 +26,7 @@ namespace Play.Identity.Service.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGet(string logoutId)
         {
-            var context = await _interaction.GetLogoutContextAsync(logoutId).ConfigureAwait(false);
+            var context = await _interaction.GetLogoutContextAsync(logoutId);
             if (context?.ShowSignoutPrompt == false)
             {
                 return await OnPost(context.PostLogoutRedirectUri);
