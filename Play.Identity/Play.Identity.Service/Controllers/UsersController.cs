@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IdentityServer4;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Play.Identity.Service.Entities;
+using static IdentityServer4.IdentityServerConstants;
 
 namespace Play.Identity.Service.Controllers
 {
-    [Authorize(Policy = IdentityServerConstants.LocalApi.PolicyName)]
+    [Authorize(Policy = LocalApi.PolicyName, Roles = Roles.Admin)]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase

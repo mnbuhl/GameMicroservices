@@ -1,9 +1,4 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Play.Catalog.Service.Contracts.v1.Items;
 using Play.Common.Identity;
@@ -28,6 +23,21 @@ namespace Play.Catalog.Service
                 .AddMongoRepository("items")
                 .AddMassTransitWithRabbitMq()
                 .AddJwtBearerAuthentication();
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy(Policies.Read, policy =>
+                {
+                    policy.RequireRole("Admin");
+                    policy.RequireClaim("scope", "catalog.read-access", "catalog.full-access");
+                });
+
+                opt.AddPolicy(Policies.Write, policy =>
+                {
+                    policy.RequireRole("Admin");
+                    policy.RequireClaim("scope", "catalog.write-access", "catalog.full-access");
+                });
+            });
 
             services.AddApiVersioning(opt =>
             {

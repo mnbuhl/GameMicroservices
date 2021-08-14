@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
@@ -12,14 +9,13 @@ using Play.Common;
 
 namespace Play.Catalog.Service.Controllers
 {
-    [Authorize(Roles = AdminRole)]
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ItemsController : ControllerBase
     {
         private const string AdminRole = "Admin";
-        
+
         private readonly IRepository<Item> _itemsRepository;
         private readonly IMapper _mapper;
         private readonly IPublishEndpoint _publishEndpoint;
@@ -33,6 +29,7 @@ namespace Play.Catalog.Service.Controllers
 
         // GET /api/v1/items
         [HttpGet]
+        [Authorize(Policies.Read)]
         public async Task<ActionResult<List<ItemResponseDto>>> GetAll()
         {
             IReadOnlyCollection<Item> items = await _itemsRepository.GetAllAsync();
@@ -41,6 +38,7 @@ namespace Play.Catalog.Service.Controllers
 
         // GET /api/v1/items/{id}
         [HttpGet("{id:guid}")]
+        [Authorize(Policies.Read)]
         public async Task<ActionResult<ItemResponseDto>> Get(Guid id)
         {
             var item = await _itemsRepository.GetAsync(id);
@@ -53,6 +51,7 @@ namespace Play.Catalog.Service.Controllers
 
         // POST /api/v1/items
         [HttpPost]
+        [Authorize(Policies.Write)]
         public async Task<ActionResult<ItemResponseDto>> Create([FromBody] CreateItemDto itemDto)
         {
             var item = _mapper.Map<Item>(itemDto);
@@ -70,6 +69,7 @@ namespace Play.Catalog.Service.Controllers
 
         // PUT /api/v1/items/{id}
         [HttpPut("{id:guid}")]
+        [Authorize(Policies.Write)]
         public async Task<ActionResult> Update(Guid id, [FromBody] UpdateItemDto itemDto)
         {
             var itemToUpdate = await _itemsRepository.GetAsync(id);
@@ -92,6 +92,7 @@ namespace Play.Catalog.Service.Controllers
 
         // DELETE /api/v1/items/{id}
         [HttpDelete("{id:guid}")]
+        [Authorize(Policies.Write)]
         public async Task<ActionResult> Delete(Guid id)
         {
             bool deleted = await _itemsRepository.DeleteAsync(id);
