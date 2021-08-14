@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import GrantItemForm from './GrantItemForm';
-export default class GrantItemModal extends Component
+import UserForm from './UserForm';
+export default class UserModal extends Component
 {
     state = {
         modal: false
@@ -14,14 +14,18 @@ export default class GrantItemModal extends Component
     }
     render()
     {
+        let title = 'Edit User';
         return <Fragment>
-            <Button variant="primary" onClick={this.toggle}>Grant</Button>
+            <Button
+                variant="primary"
+                onClick={this.toggle}>Edit</Button>
             <Modal show={this.state.modal} className={this.props.className} onHide={this.toggle}>
-                <Modal.Header closeButton>Grant {this.props.item.name}</Modal.Header>
+                <Modal.Header closeButton>{title}</Modal.Header>
                 <Modal.Body>
-                    <GrantItemForm
+                    <UserForm
+                        updateUserIntoState={this.props.updateUserIntoState}
                         toggle={this.toggle}
-                        item={this.props.item}/>
+                        user={this.props.user} />
                 </Modal.Body>
             </Modal>
         </Fragment>;
