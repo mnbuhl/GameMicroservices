@@ -12,12 +12,14 @@ using Play.Common;
 
 namespace Play.Catalog.Service.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = AdminRole)]
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ItemsController : ControllerBase
     {
+        private const string AdminRole = "Admin";
+        
         private readonly IRepository<Item> _itemsRepository;
         private readonly IMapper _mapper;
         private readonly IPublishEndpoint _publishEndpoint;
