@@ -22,9 +22,9 @@ namespace Play.Common.Identity
 
         public void Configure(string name, JwtBearerOptions options)
         {
-            if (name != JwtBearerDefaults.AuthenticationScheme) 
+            if (name != JwtBearerDefaults.AuthenticationScheme)
                 return;
-            
+
             var serviceSettings = _configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
             options.Audience = serviceSettings.ServiceName;

@@ -14,8 +14,6 @@ namespace Play.Catalog.Service.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ItemsController : ControllerBase
     {
-        private const string AdminRole = "Admin";
-
         private readonly IRepository<Item> _itemsRepository;
         private readonly IMapper _mapper;
         private readonly IPublishEndpoint _publishEndpoint;
