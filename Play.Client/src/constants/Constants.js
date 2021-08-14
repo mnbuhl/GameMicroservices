@@ -1,5 +1,5 @@
 export const ApplicationPaths = {
-  CatalogPath: '/catalog',  
+  CatalogPath: '/catalog',
   InventoryPath: '/inventory',
   UsersPath: '/users'
 };
