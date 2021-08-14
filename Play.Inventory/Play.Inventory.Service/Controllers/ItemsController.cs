@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Play.Common;
 using Play.Inventory.Service.Contracts.v1;
 using Play.Inventory.Service.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Play.Inventory.Service.Controllers
 {
@@ -32,6 +29,13 @@ namespace Play.Inventory.Service.Controllers
         {
             if (userId == Guid.Empty)
                 return BadRequest();
+
+            var currentUserId = User.FindFirstValue("sub");
+
+            if (Guid.Parse(currentUserId) != userId && !User.IsInRole(AdminRole))
+            {
+                return Unauthorized();
+            }
 
             var inventoryItemEntities = await _inventoryRepository.GetAllAsync(item => item.UserId == userId);
             var catalogItemIds = inventoryItemEntities.Select(item => item.CatalogItemId);
